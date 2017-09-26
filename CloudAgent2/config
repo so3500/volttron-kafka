@@ -10,10 +10,9 @@
         "devices/fake-campus/fake-building/fake-device/all"
      ],
      "command_topic": "command-to-cloud",
-     "cloud_producer_ip" : "127.0.0.1",
-     "cloud_producer_port" : "9092",
+     "cloud_broker_ip": "127.0.0.1",
+     "cloud_broker_port": "9092",
      "cloud_producer_topic" : "command-from-cloud",
-     "cloud_consumer_ip" : "127.0.0.1",
-     "cloud_consumer_port" : "9093",
      "cloud_consumer_topic" : "command-to-cloud"
 }
+

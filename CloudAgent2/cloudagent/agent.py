@@ -38,11 +38,9 @@ def cloud_agent(config_path, **kwargs):
     database_name = config.get('database_name')
     collection_name = config.get('collection_name')
     command_topic = config.get('command_topic')
-    cloud_producer_ip = config.get('cloud_producer_ip')
-    cloud_producer_port = config.get('cloud_producer_port')
+    cloud_broker_ip = config.get('cloud_broker_ip')
+    cloud_broker_port = config.get('cloud_broker_port')
     cloud_producer_topic = config.get('cloud_producer_topic')
-    cloud_consumer_ip = config.get('cloud_consumer_ip')
-    cloud_consumer_port = config.get('cloud_consumer_port')
     cloud_consumer_topic = config.get('cloud_consumer_topic')
 
     if 'all' in services_topic_list:
@@ -56,11 +54,9 @@ def cloud_agent(config_path, **kwargs):
                       database_name,
                       collection_name,
                       command_topic,
-                      cloud_producer_ip,
-                      cloud_producer_port,
+                      cloud_broker_ip,
+                      cloud_broker_port,
                       cloud_producer_topic,
-                      cloud_consumer_ip,
-                      cloud_consumer_port,
                       cloud_consumer_topic,
                       **kwargs)
 
@@ -72,11 +68,9 @@ class CloudAgent(Agent):
                  database_name,
                  collection_name,
                  command_topic,
-                 cloud_producer_ip,
-                 cloud_producer_port,
+                 cloud_broker_ip,
+                 cloud_broker_port,
                  cloud_producer_topic,
-                 cloud_consumer_ip,
-                 cloud_consumer_port,
                  cloud_consumer_topic,
                  **kwargs):
         super(CloudAgent, self).__init__(**kwargs)
@@ -89,11 +83,9 @@ class CloudAgent(Agent):
         self.database_name = database_name
         self.collection_name = collection_name
         self.command_topic = command_topic
-        self.cloud_producer_ip = cloud_producer_ip
-        self.cloud_producer_port = cloud_producer_port
+        self.cloud_broker_ip = cloud_broker_ip
+        self.cloud_broker_port = cloud_broker_port
         self.cloud_producer_topic = cloud_producer_topic
-        self.cloud_consumer_ip = cloud_consumer_ip
-        self.cloud_consumer_port = cloud_consumer_port
         self.cloud_consumer_topic = cloud_consumer_topic
 
         self.default_config = {"source": source,
@@ -103,11 +95,9 @@ class CloudAgent(Agent):
                                "database_name": database_name,
                                "collection_name": collection_name,
                                "command_topic": command_topic,
-                               "cloud_producer_ip": cloud_producer_ip,
-                               "cloud_producer_port": cloud_producer_port,
+                               "cloud_broker_ip": cloud_broker_ip,
+                               "cloud_broker_port": cloud_broker_port,
                                "cloud_producer_topic": cloud_producer_topic,
-                               "cloud_consumer_ip": cloud_consumer_ip,
-                               "cloud_consumer_port": cloud_consumer_port,
                                "cloud_consumer_topic": cloud_consumer_topic
                                }
 
@@ -129,13 +119,13 @@ class CloudAgent(Agent):
 
         # kafka server
         # if differ group name, consume ok
-        self.cloud_producer_addr = '{0}:{1}'.format(self.cloud_producer_ip, self.cloud_producer_port)
+        self.cloud_producer_addr = '{0}:{1}'.format(self.cloud_broker_ip, self.cloud_broker_port)
         self.consumer = KafkaConsumer(bootstrap_servers=[self.cloud_producer_addr])
         self.consumer.subscribe([self.cloud_producer_topic])
 
         # kafak producer - command volttron to cloud
         # produce json messages
-        self.cloud_consumer_addr = '{0}:{1}'.format(self.cloud_consumer_ip, self.cloud_consumer_port)
+        self.cloud_consumer_addr = '{0}:{1}'.format(self.cloud_broker_ip, self.cloud_broker_port)
         self.producer = KafkaProducer(bootstrap_servers=[self.cloud_consumer_addr],
                         value_serializer=lambda v: json.dumps(v).encode('utf-8')
                          )
@@ -315,3 +305,4 @@ if __name__ == '__main__':
     #
     #     except Exception as e:
     #         _log.error('Command_to_cloud: {}'.format(e))
+
