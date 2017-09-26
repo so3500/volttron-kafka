@@ -1,0 +1,1 @@
+[2017-09-07 14:31:53,322] TRACE Broker 0 cached leader info (LeaderAndIsrInfo:(Leader:1,ISR:1,LeaderEpoch:0,ControllerEpoch:6),ReplicationFactor:1),AllReplicas:1) for partition connect-test-0 in response to UpdateMetadata request sent by controller 1 epoch 6 with correlation id 7 (state.change.logger)
