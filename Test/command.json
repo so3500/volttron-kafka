@@ -1,0 +1,7 @@
+{
+    "kafka_topic": "command-from-cloud",
+    "device_point_list": [
+        {"device_point": "fake-campus/fake-building/fake-device/PowerState", "new_value": 0},
+        {"device_point": "fake-campus/fake-building/fake-device/ValveState", "new_value": 1}
+    ]
+}
