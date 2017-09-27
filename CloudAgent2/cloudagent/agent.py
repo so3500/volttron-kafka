@@ -158,7 +158,7 @@ class CloudAgent(Agent):
                 'source': self.source,
                 'date': str(datetime.datetime.now()),
                 'topic': topic,
-                # 'headers': headers,
+                'headers': headers,
                 'message': message,
             }
             post_id = self.collection.insert(post)
@@ -268,10 +268,13 @@ class CloudAgent(Agent):
             headers = {
                 'date': str(datetime.datetime.now())
             }
-            message = [self.new_value_,
-                       {'message': 'message VOLTTRON to Cloud',
-                       'new_value': self.new_value_,
-                       }]
+            message = [
+                self.new_value_,
+               {
+                   'message': 'message VOLTTRON to Cloud',
+                   'new_value': self.new_value_,
+               }
+            ]
             self.new_value_ += 1
             topic = self.command_topic
 
