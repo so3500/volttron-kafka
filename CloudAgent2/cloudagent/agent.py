@@ -29,7 +29,7 @@ __version__ = "0.2"
 # refer example agent
 # link : http://volttron.readthedocs.io/en/4.0.1/devguides/agent_development/Agent-Configuration-Store.html#example-agent
 def cloud_agent(config_path, **kwargs):
-     '''
+    '''
         Function: Return CloudAgent object with configuration information
 
         Args: Same with Class Args
@@ -40,7 +40,7 @@ def cloud_agent(config_path, **kwargs):
 
         Created: JinhoSon, 2017-04-14
         Deleted: .
-     '''
+    '''
     # get config information
     config = utils.load_config(config_path)
     source = config.get('source')
@@ -140,7 +140,7 @@ class CloudAgent(Agent):
                  cloud_producer_topic,
                  cloud_consumer_topic,
                  **kwargs):
-         '''
+        '''
             Function:
                 1. initiallizing the configuration information
                 2. Create Connection with MongoDB server, Kafka Consumer, Kafka Producer in Cloud
@@ -157,7 +157,7 @@ class CloudAgent(Agent):
             Created: JinhoSon, 2017-04-14
             Modified: SungonLee, 2017-09-20
             Deleted: .
-         '''
+        '''
         super(CloudAgent, self).__init__(**kwargs)
 
         # set config info
@@ -190,17 +190,18 @@ class CloudAgent(Agent):
 
         self.vip.config.set_default("config", self.default_config)
 
-        # connect with local(or remote) mongodb
-        self.connection = MongoClient(self.destination_ip, int(self.destination_port))
-        self.db = self.connection[str(self.database_name)]
-        self.collection = self.db[str(self.collection_name)]
-
         # setting up callback_method for configuration store interface
         self.vip.config.subscribe(self.configure_new, actions="NEW", pattern="cloud/*")
         self.vip.config.subscribe(self.configure_update, actions=["UPDATE",], pattern="cloud/*")
         self.vip.config.subscribe(self.configure_delete, actions=["DELETE",], pattern="cloud/*")
 
         self.new_value_ = 0
+
+        # connect with local(or remote) mongodb
+        self.connection = MongoClient(self.destination_ip, int(self.destination_port))
+        self.db = self.connection[str(self.database_name)]
+        self.collection = self.db[str(self.collection_name)]
+
 
         # kafka
         self.cloud_producer_addr = '{0}:{1}'.format(self.cloud_broker_ip, self.cloud_broker_port)
@@ -279,7 +280,8 @@ class CloudAgent(Agent):
 
             Note:
                 Callback method for subscribing.
-                Subscribe message topic: 'command-to-cloud' send command to cloud, producer(CloudAgent)-> kafka broker(Cloud) -> consumer(Cloud)
+                Subscribe message topic: 'command-to-cloud' send command to cloud,
+                                         producer(CloudAgent)-> kafka broker(Cloud) -> consumer(Cloud)
 
             Created: SungonLee, 2017-09-10
             Deleted: .
@@ -347,11 +349,8 @@ class CloudAgent(Agent):
                 Use RPC to set device point value with message infomation.
 
             Args: None
-
             Returns: None
-
             Note: None
-
             Created: SungonLee, 2017-07-20
             Modified: SungonLee, 2017-09-20
             Deleted: .
@@ -400,7 +399,6 @@ class CloudAgent(Agent):
 
             else:
                 _log.info('Actuate_something: Not receive command from cloud')
-
         except Exception as e:
             _log.error('Actuate_something: {}'.format(e))
 
@@ -440,8 +438,10 @@ class CloudAgent(Agent):
             topic = self.command_topic
 
             self.vip.pubsub.publish('pubsub', topic, headers, message)
+
+
         except Exception as e:
-            _log.error('Publish_command: publish_command: {}'.format(e))
+            _log.error('Publish_command: {}'.format(e))
 
         # @Core.periodic(5)
         # def command_to_cloud_(self):
