@@ -237,7 +237,7 @@ class CloudAgent(Agent):
 
             Args:
                 peer: the ZMQ identity of the bus owner sender is identity of the publishing peer
-                sender:
+                sender: identity of agent publishing messages to messagebus
                 bus:
                 topic: the full message topic
                 headers: case-insensitive dictionary (mapping) of message headers
@@ -254,6 +254,9 @@ class CloudAgent(Agent):
             Deleted: .
         '''
         try:
+            _log.info('Post_data: subscribe from message bus, topic:{0}, message:{1}, sender:{2}'
+            .format(topic ,message, sender, bus))
+
             post = {
                 'author': 'volttron.cloudagnet',
                 'source': self.source,
@@ -287,6 +290,9 @@ class CloudAgent(Agent):
             Deleted: .
         '''
         try:
+            _log.info('Command_to_cloud: subscribe from message bus, topic:{0}, message:{1}, sender:{2}'
+                      .format(topic ,message, sender, bus))
+
             new_value = message[0]
             msg = {'from': 'CloudAgent', 'to':'Cloud'
                   ,'message': 'message from VOLTTRON to Cloud', 'new_value': new_value}
@@ -297,8 +303,7 @@ class CloudAgent(Agent):
             self.post_data(topic=self.cloud_consumer_topic, message=msg)
 
         except Exception as e:
-            _log.error('command_to_cloud: {}'.format(e))
-
+            _log.error('Command_to_cloud: {}'.format(e))
 
     @Core.receiver("onstart")
     def on_message_topic(self, sender, **kwargs):
@@ -365,8 +370,8 @@ class CloudAgent(Agent):
                     for response in partition[p]:
                         # convert string to dictionary
                         response_dict = ast.literal_eval(response.value)
-                        # _log.info('Receive message from cloud value: {}, new_value: {}'
-                        # .format(response_dict, response_dict['new_value']))
+                        _log.info('Actuate_something: Receive message from cloud message: {}, new_value: {}'
+                        .format(response_dict, response_dict['new_value']))
 
                         new_value = response_dict['new_value']
                         device_point = response_dict['device_point']
@@ -377,7 +382,7 @@ class CloudAgent(Agent):
                             'get_point',
                             device_point
                         ).get(timeout=10)
-                        _log.info("Actuate_something Reading Before commmand: {}".format(result))
+                        _log.info("Actuate_something: Reading Before commmand: {}".format(result))
 
                         # Use RPC to set point-value in device
                         result = self.vip.rpc.call(
@@ -387,7 +392,7 @@ class CloudAgent(Agent):
                             device_point,
                             new_value,
                         ).get(timeout=10)
-                        _log.info("Actuate_something Reading After command: {}".format(result))
+                        _log.info("Actuate_something: Reading After command: {}".format(result))
 
                         # Send command data to MongoDB(in Cloud)
                         msg = {'from': 'Cloud',
@@ -439,7 +444,8 @@ class CloudAgent(Agent):
 
             self.vip.pubsub.publish('pubsub', topic, headers, message)
 
-
+            _log.info('Publish_command: publish to message bus, topic:{0}, new_value_:{1}, message:{2}'
+                      .format(topic ,self.new_value_, 'message VOLTTRON to Cloud'))
         except Exception as e:
             _log.error('Publish_command: {}'.format(e))
 
