@@ -6,6 +6,15 @@
 
 ## Cloud Agent
 
+### Test environment & prerequisites
+* Ubuntu 16.04 LTS
+* Ubuntu 16.04 mate
+* mongodb 3.4.4
+* pymongo 3.4.0
+* Mongobooster
+* kafka 0.11.0.1
+
+
 ![그림0](./img/0.png)
 
 ### TestBed with Raspberry Pi
