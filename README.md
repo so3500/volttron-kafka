@@ -6,7 +6,7 @@
 
 ## Cloud Agent
 
-![그림0](./img/0.png)
+![그림0](./img/0.PNG)
 
 ### TestBed with Raspberry Pi
 
