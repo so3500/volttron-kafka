@@ -6,6 +6,7 @@
 
 ## Cloud Agent
 
+<<<<<<< HEAD
 ### Test environment & prerequisites
 * Ubuntu 16.04 LTS
 * Ubuntu 16.04 mate
@@ -16,6 +17,9 @@
 
 
 ![그림0](./img/0.png)
+=======
+![그림0](./img/0.PNG)
+>>>>>>> 2b199af099c55f040282128acf51a86933a5726e
 
 ### TestBed with Raspberry Pi
 
