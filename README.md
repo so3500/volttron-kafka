@@ -186,7 +186,7 @@ bin/zookeeper-server-start.sh config/zookeeper.properties
 vi config/server.properties
 ```
 
-![그림13](./img/13.png)
+![그림13](./img/13.PNG)
 
 ```
 bin/kafka-server-start.sh config/server.properties
@@ -199,7 +199,7 @@ sudo ufw allow 9092
 
 config 파일 수정 후 설치
 
-![그림14](./img/14.png)
+![그림14](./img/14.PNG)
 
 #### Cloud 측 consumer 실행 - PC
 kafa-python package 설치
