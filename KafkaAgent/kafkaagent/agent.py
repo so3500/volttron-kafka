@@ -244,7 +244,7 @@ class KafkaAgent(Agent):
         for topic_subscriptions in self.services_topic_list:
             subscriber(topic_subscriptions, self.send_to_broker)
 
-   @Core.periodic(1)
+    @Core.periodic(1)
     def receive_from_broker(self):
         '''
             Function: Receive message from Kafka broker and Publish message to MessageBus.
@@ -263,28 +263,32 @@ class KafkaAgent(Agent):
                 for p in partition:
                     for response in partition[p]:
                         # convert string to dictionary
+                        # _log.info('Receive_from_broker: {}'.format(response))
                         response_dict = ast.literal_eval(response.value)
-                        _log.info('receive_from_broker: Receive message from kafka broker message: {}'
-                        .format(response_dict))
+                        # _log.info('Receive_from_broker: Receive message from kafka broker message: {}'.format(response_dict))
 
+                        topic = response.topic
+                        headers = {
+                            'date': str(datetime.datetime.now())
+                            }
                         message = {
                             'from': 'KafkaBroker',
                             'to':'KafkaAgent',
                             'description': 'message from kafka broker to VOLTTRON',
-                            'message': response_dict,
+                            'message': response_dict
                             }
 
                         self.vip.pubsub.publish('pubsub', topic, headers, message)
-
             else:
-                _log.info('Receive_from_broker: No receive message from kafka broker')
+                pass
+                # _log.info('Receive_from_broker: No receive message from kafka broker')
 
         except Exception as e:
             _log.error('Receive_from_broker: {}'.format(e))
 
 def main(argv=sys.argv):
     '''Main method called to start the agent.'''
-    utils.vip_main(cloud_agent, identity='KafkaAgent',
+    utils.vip_main(kafka_agent, identity='KafkaAgent',
                    version=__version__)
 
 
