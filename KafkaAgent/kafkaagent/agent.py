@@ -262,19 +262,18 @@ class KafkaAgent(Agent):
             if len(partition) > 0:
                 for p in partition:
                     for response in partition[p]:
-                        # convert string to dictionary
                         # _log.info('Receive_from_broker: {}'.format(response))
+                        # convert string to dictionary
                         response_dict = ast.literal_eval(response.value)
                         # _log.info('Receive_from_broker: Receive message from kafka broker message: {}'.format(response_dict))
-
                         topic = response.topic
+                        # sender = response_dict['sender']
                         headers = {
                             'date': str(datetime.datetime.now())
                             }
                         message = {
-                            'from': 'KafkaBroker',
-                            'to':'KafkaAgent',
-                            'description': 'message from kafka broker to VOLTTRON',
+                            # 'kafka_message_sender': sender,
+                            # 'kafka_message_receiver':'KafkaAgent',
                             'message': response_dict
                             }
 
