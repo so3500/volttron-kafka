@@ -197,10 +197,12 @@ class KafkaAgent(Agent):
             Deleted: .
         '''
         try:
-            msg = {'from': 'KafkaAgent', 'to':'KafkaBroker'
-                  ,'description': 'message from VOLTTRON to KafkaBroker'
-                  ,'message': message}
-
+            msg = {
+                'message_sender': sender,
+                'kafka_message_sender': 'KafkaAgent',
+                'description': 'message from VOLTTRON to KafkaBroker',
+                'message': message
+                }
             # Send command to Consumer(in Cloud)
             self.producer.send(self.kafka_consumer_topic, msg)
 
