@@ -6,7 +6,7 @@ from kafka.errors import KafkaError
 
 '''
 example
-kafka_topic: "command-from-cloud"
+kafka_topic: "msg-to-volttron"
 device_point: "fake-campus/fake-building/fake-device/PowerState"
 new_value: 1
 '''
@@ -33,22 +33,26 @@ while True:
             producer.send(kafka_topic, msg)
 
         elif menu == 2:
-            with open('command.json') as f:
+            with open('message.json') as f:
                 data = json.load(f)
                 kafka_topic = data["kafka_topic"]
-                device_point_list = data["device_point_list"]
+                message_list = data["message_list"]
 
-                for device_point_ in device_point_list:
-                    device_point = device_point_['device_point']
-                    new_value = device_point_["new_value"]
+                for message in message_list:
+                    sender  = message['sender']
+                    topic = message['topic']
+                    value = message['value']
+                    description = message['description']
                     msg = {
-                        'message': 'message from VOLTTRON to Cloud',
-                        'new_value': new_value,
-                        'device_point': device_point
+                        'kafka_message_sender': sender,
+                        'topic': topic,
+                        'value': value,
+                        'description': description
                     }
-                    print('msg: {}\n'.format(msg))
+                    print('msg: {}'.format(msg))
                     # send message to broker
                     producer.send(kafka_topic, msg)
+                print('')
 
 
     except Exception as e:
