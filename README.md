@@ -1,6 +1,10 @@
 # volttron-kafka
 
-## Kafak Agent
+1. kafka Agent
+2. Cloud Agent
+
+
+## 1. Kafak Agent
 
 ### Test environment & Prerequisites
 
@@ -8,6 +12,7 @@
 - Apache Kafka 0.11.0.1
 - kafka-python 1.3.5
 
+![kafka_agent_overview](./img/kafka_agent_overview.PNG)
 
 
 ### Features
@@ -112,7 +117,7 @@ gevent등을 이용하면 좋을 듯
 
 
 
-## Cloud Agent
+## 2. Cloud Agent
 
 ### Test environment & prerequisites
 * Ubuntu 16.04 LTS
