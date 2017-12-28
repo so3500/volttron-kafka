@@ -1,6 +1,9 @@
 # volttron-kafka
 
-1. kafka Agent  [VOLTTRON/volttron develop branch contribuion](https://github.com/VOLTTRON/volttron/tree/develop/services/contrib/KafkaAgent)
+1. [kafka Agent](https://github.com/VOLTTRON/volttron/tree/develop/services/contrib/KafkaAgent) 
+   - [VOLTTRON/volttron:develop](https://github.com/VOLTTRON/volttron/tree/develop/services/contrib/KafkaAgent) 
+   - [volttron/issues/1525](https://github.com/VOLTTRON/volttron/issues/1525) 
+   - [volttron/pull/1563](https://github.com/VOLTTRON/volttron/pull/1563)
 2. Cloud Agent
 
 
